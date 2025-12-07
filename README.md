@@ -42,7 +42,6 @@ How will you be using arrays in this project?
 
 2D Array:
 - grid of enemies
-- coords of enemies
 
 
 ### Controls
@@ -62,12 +61,18 @@ What classes will you be creating for this project? Include the instance variabl
 
 Projectile
 - Instance variables:
-  - LIST INSTANCE VARS HERE
+  - xpos, ypos, speed, 
 - METHODS
-  - LIST METHODS HERE
+  - move
 
-CLASS NAME1
+Player
 - Instance variables:
-  - LIST INSTANCE VARS HERE
+  - xpos, ypos, speed
 - METHODS
-  - LIST METHODS HERE
+  - move, shoot, display
+    
+Enemy
+- Instance variables:
+  - xpos, ypos, 
+- METHODS
+  - display, move
