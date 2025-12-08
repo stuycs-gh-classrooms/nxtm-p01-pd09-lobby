@@ -27,7 +27,7 @@ The first phase will be to work on this document.
 ### Necessary Features
 What are the core features that your program should have? These should be things that __must__ be implemented in order to make the program useable/playable, not extra features that could be added to make the program more interesting/fun.
 
-Player controlled spaceship, grid of enemies that automatically approach the user spaceship, ability to shoot projectiles(both "computer" and player), ability for projectiles to destroy ships.
+Player controlled spaceship, grid of enemies that automatically approach the user spaceship, ability to shoot projectiles(both "computer" and player), ability for projectiles to destroy ships, game end when player is hit or enemies reach bottom.
 
 ### Extra Features
 What are some features that are not essential to the program, but you would like to see (provided you have time after completing the necessary features. Theses can be customizations that are not part of the core requirements.
@@ -63,7 +63,7 @@ Projectile
 - Instance variables:
   - xpos, ypos, speed, 
 - METHODS
-  - move
+  - move, display
 
 Player
 - Instance variables:
