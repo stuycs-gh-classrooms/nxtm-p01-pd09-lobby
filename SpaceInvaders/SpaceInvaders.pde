@@ -42,7 +42,7 @@ void draw() {
   if(player.alive == false){
     if(lives > 0){   
     }
-    if(lives < 0){
+    if(lives == 0){
       gameOver = true;
     }
   }
