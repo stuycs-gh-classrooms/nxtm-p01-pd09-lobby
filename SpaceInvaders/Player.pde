@@ -1,3 +1,3 @@
-//Class Player{
+//class Player{
 //  color proj;
 //}
