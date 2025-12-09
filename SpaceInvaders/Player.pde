@@ -16,15 +16,8 @@ class Player {
     rect(x, y, 40, 20);
   }
 
-  void moveLeft() { //dont rly need this
-    x -= speed;
-  }
-
-  void moveRight() { //or this
-    x += speed;
-  }
-
   Projectile shoot() {// makes new bullet from player position
     return new Projectile(x + 20, y, -5);
   }
 }
+  
