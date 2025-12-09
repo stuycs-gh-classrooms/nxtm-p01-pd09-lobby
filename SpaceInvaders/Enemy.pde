@@ -1,7 +1,7 @@
 class Enemy {
   float x, y;
   boolean alive = true;//alive?
-  float speed = 1;
+  float speed = 5;
 
   Enemy(float ax, float ay) {//starting position
     x = ax;
@@ -22,5 +22,9 @@ class Enemy {
   void changeDir() {//change direction if hits an edge
     speed *= -1;
     y += 20;
+  }
+
+  Projectile shoot() {// makes new bullet from player position
+    return new Projectile(x + 15, y - 20, 5);
   }
 }

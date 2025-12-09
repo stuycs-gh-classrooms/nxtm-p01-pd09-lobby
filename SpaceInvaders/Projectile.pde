@@ -12,6 +12,7 @@ class Projectile {
     stroke(255);
     strokeWeight(5);
     point(x, y);
+    strokeWeight(0);
   }
 
   void move() {
