@@ -1,15 +1,26 @@
 class Enemy {
-  color proj;
-  float x;
-  float y;
+  float x, y;
+  boolean alive = true;//alive?
+  float speed = 1;
 
-  Enemy(float x, float y) {
-    this.x = x;
-    this.y = y;
+  Enemy(float ax, float ay) {//starting position
+    x = ax;
+    y = ay;
   }
+
   void display() {
-    fill(0);
-    
-    rect(x, y, 25, 5);
+    if (alive) {
+      fill(0, 255, 0);
+      rect(x, y, 30, 20);
+    }
+  }
+
+  void move() {
+    x += speed;
+  }
+
+  void changeDir() {//change direction if hits an edge
+    speed *= -1;
+    y += 20;
   }
 }
