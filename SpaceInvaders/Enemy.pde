@@ -1,3 +1,3 @@
-Class Enemy{
-  
-}
+//Class Enemy{
+//  color proj;
+//}
