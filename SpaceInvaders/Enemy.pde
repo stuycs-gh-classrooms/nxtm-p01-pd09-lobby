@@ -7,6 +7,7 @@ class Enemy {
     x = ax;
     y = ay;
   }
+  
 
   void display() {
     if (alive) {

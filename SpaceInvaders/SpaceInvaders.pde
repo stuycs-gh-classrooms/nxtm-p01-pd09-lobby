@@ -4,6 +4,7 @@ int lives;
 int enemyrows;
 int enemycols;
 int aliens;
+boolean paused;
 Player player;
 Enemy[][] enemies;
 Projectile[] playerProjectile;
@@ -38,37 +39,46 @@ void setup() {
 }
 
 void draw() {
+  if(paused == true){
+    textAlign(CENTER);
+    fill(255);
+    text("PAUSED", width/2, height/2);
+  } else{
   background(0, 0, 50);
-  if(player.alive == false){
-    if(lives > 0){   
+  
+  if (player.alive == false) {
+    if (lives > 0) {
     }
-    if(lives == 0){
+    if (lives == 0) {
       gameOver = true;
     }
   }
-    if (gameOver == false) {
-  if (frameCount % 60 ==0) {
-    for (int r = 0; r < enemyrows; r++) {
-      for (int c = 0; c < enemycols; c++) {
-        enemies[r][c].move();
+  if (gameOver == false) {
+    if (frameCount % 10 ==0) {
+      for (int r = 0; r < enemyrows; r++) {
+        for (int c = 0; c < enemycols; c++) {
+          enemies[r][c].move();
+          println(enemies[r][c].y);
+          
+        }
+      }
+      checkWallCollision();
+    }
+    if (frameCount % 240 == 0) {
+      for (int num = 0; num < 5; num++) {
+        int i = int(random(enemyrows));
+        int j = int(random(enemycols));
+        if (enemies[i][j].alive != false) {
+          enemyProjectiles[num] = enemies[i][j].shoot();
+        }
       }
     }
-  }
-  if (frameCount % 240 == 0) {
-    for (int num = 0; num < 5; num++) {
-      int i = int(random(enemyrows));
-      int j = int(random(enemycols));
-      if (enemies[i][j].alive != false) {
-        enemyProjectiles[num] = enemies[i][j].shoot();
+    for (int b = 0; b < 5; b++) {
+      if (enemyProjectiles[b] != null) {
+        enemyProjectiles[b].display();
+        enemyProjectiles[b].move();
       }
     }
-  }
-  for (int b = 0; b < 5; b++) {
-    if (enemyProjectiles[b] != null) {
-      enemyProjectiles[b].display();
-      enemyProjectiles[b].move();
-    }
-  }
 
     textSize(50);
     textAlign(RIGHT);
@@ -76,7 +86,6 @@ void draw() {
     textAlign(LEFT);
     text("SCORE: " + score, 20, 50);
     player.display();
-    checkWallCollision();
     checkPlayerProjectileCollision();
     checkEnemyProjectileCollision();
     for (int r = 0; r < enemyrows; r++) {
@@ -96,7 +105,9 @@ void draw() {
     textSize(100);
     textAlign(CENTER);
     text("GAMEOVER", width/2, height/2);
+    text("Final Score: " + score, width/2, height/2 + 120);
   }
+}
 }
 
 void checkWallCollision() {
@@ -155,14 +166,6 @@ void checkEnemyProjectileCollision() {
   }
 }
 
-boolean contains(int[] arr, int value) {
-  for (int i = 0; i < arr.length; i++) {
-    if (arr[i] == value) {
-      return true;
-    }
-  }
-  return false;
-}
 
 void keyPressed() {
   if (key == 'a') {
@@ -175,6 +178,12 @@ void keyPressed() {
       player.x += 5;
     }
   }
+  if (key == 'r'){
+    setup();
+  }
+  if(key == ' '){
+    paused = !paused;
+}
 }
 
 void mousePressed() {
