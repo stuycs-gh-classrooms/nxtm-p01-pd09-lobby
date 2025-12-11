@@ -9,6 +9,7 @@ Player player;
 Enemy[][] enemies;
 Projectile[] playerProjectile;
 Projectile[] enemyProjectiles;
+Barrier[] barriers;
 
 void setup() {
   background(0, 0, 50);
