@@ -5,6 +5,8 @@ int enemyrows;
 int enemycols;
 int aliens;
 boolean paused;
+int timer;
+int stage;
 Player player;
 Enemy[][] enemies;
 Projectile[] playerProjectile;
@@ -22,7 +24,11 @@ void setup() {
   enemyProjectiles = new Projectile[5];
   score = 0;
   lives = 3;
+  timer = 0;
+  stage = 1;
   gameOver = false;
+  textSize(100);
+  textAlign(CENTER);
 
   barriers = new Barrier[4];
   float barrierSpacing = width / 5.0;
@@ -49,12 +55,31 @@ void setup() {
 }
 
 void draw() {
+  if (timer < 4) {
+    if(frameCount % 60 == 0) {
+      timer++;
+    }
+    background(0);
+    if (stage > 1) {
+      text("Stage " + stage, width/2, height/2);
+    } else {
+      text("Get Ready", width/2, height/2);
+    }
+  }else{
+
+  background(0, 0, 50);
   if (paused == true) {
     textAlign(CENTER);
     fill(255);
     text("PAUSED", width/2, height/2);
   } else {
-    background(0, 0, 50);
+    if (stageClear() == true) {
+      int savescore = score;
+      int savestage = stage;
+      setup();
+      score = savescore;
+      stage = savestage++;
+    }
 
     if (player.alive == false) {
       if (lives > 0) {
@@ -72,7 +97,7 @@ void draw() {
         }
       }
 
-      if (frameCount % 10 ==0) {
+      if (frameCount % 60 ==0) {
         for (int r = 0; r < enemyrows; r++) {
           for (int c = 0; c < enemycols; c++) {
             enemies[r][c].move();
@@ -99,8 +124,16 @@ void draw() {
 
       textSize(50);
       textAlign(RIGHT);
+      if (lives == 3) {
+        fill(0, 255, 0);
+      } else if (lives == 2) {
+        fill(255, 255, 0);
+      } else {
+        fill(255, 0, 0);
+      }
       text(lives + " lives remaining", width - 20, 50);
       textAlign(LEFT);
+      fill(255);
       text("SCORE: " + score, 20, 50);
       player.display();
       checkPlayerProjectileCollision();
@@ -121,10 +154,12 @@ void draw() {
     } else {
       textSize(100);
       textAlign(CENTER);
+      fill(255);
       text("GAMEOVER", width/2, height/2);
       text("Final Score: " + score, width/2, height/2 + 120);
     }
   }
+}
 }
 
 void checkWallCollision() {
@@ -142,6 +177,17 @@ void checkWallCollision() {
   }
 }
 
+
+boolean stageClear() {
+  for (int row = 0; row < enemyrows; row++) {
+    for (int col = 0; col < enemycols; col++) {
+      if (enemies[row][col].alive == true) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
 void checkPlayerProjectileCollision() {
   for (int i = 0; i < playerProjectile.length; i++) {
     if (playerProjectile[i] != null) {

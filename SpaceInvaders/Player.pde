@@ -17,6 +17,6 @@ class Player {
   }
 
   Projectile shoot() {// makes new bullet from player position
-    return new Projectile(x + 20, y, -5);
+    return new Projectile(x + 20, y, -5, 255);
   }
 }

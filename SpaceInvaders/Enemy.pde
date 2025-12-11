@@ -11,7 +11,7 @@ class Enemy {
 
   void display() {
     if (alive) {
-      fill(0, 255, 0);
+      fill(0, 200, 0);
       rect(x, y, 30, 20);
     }
   }
@@ -26,6 +26,6 @@ class Enemy {
   }
 
   Projectile shoot() {// makes new bullet from player position
-    return new Projectile(x + 15, y - 20, 5);
+    return new Projectile(x + 15, y - 20, 5, #FF0000);
   }
 }
