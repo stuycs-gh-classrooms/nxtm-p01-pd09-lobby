@@ -94,6 +94,7 @@ void draw() {
     if (stage > 1) {
       text("Stage " + stage, width/2, height/2);
     } else {
+      fill(255);
       text("Get Ready", width/2, height/2);
     }
   } else {
