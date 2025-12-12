@@ -8,7 +8,7 @@
 ### How To Play
 Explain how to play your game. Include any keyboard and/or mouse commands, game objectives, etc.
 
-The objective of the game is the kill all the enemies, green rectangles, and reach the next stage. Click "a" to move left and "d" to move right. Click the space bar to pause the game and left mouse click to shoot bullets. 
+The objective of the game is the kill all the enemies, green rectangles, and advance until you beat third stage. Click "a" to move left and "d" to move right. Click the space bar to pause the game and left mouse click to shoot bullets. M resets the game to allow for unlimited shooting mechanics and r allows you to just reset.
 
 
 ---
@@ -18,9 +18,14 @@ List all the game features you were able to implelment.
 
 - points count
 - lives count
-- enemies
-- four barriers
-- bullets
+- movingenemies
+- four barriers with hp(shrinking)
+- bullets(both player and enemies)
+- stages(difficulty increasing)
+- mode of shooting
+- player moving
+- pause
+- reset
 
 
 ---
