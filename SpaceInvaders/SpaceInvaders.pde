@@ -124,6 +124,14 @@ void draw() {
 
         //        println(stage);
       }
+    
+      //winning screen
+      if (stage == 3 && stageClear() == true){
+      background (255);
+      textAlign(CENTER);
+      fill(255);
+      text("CONGRATS YOU WON!", width/2, height/2);
+      }
 
       // check player death
       if (player.alive == false) {
