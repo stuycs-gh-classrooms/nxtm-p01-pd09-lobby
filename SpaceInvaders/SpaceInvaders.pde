@@ -11,7 +11,7 @@ int alienTick;
 boolean paused;
 boolean gameOver;
 boolean easyMode;
-
+color text;
 Player player; //player
 Enemy[][] enemies; //2d array of enemies
 Projectile[] playerProjectile; //1d array of player projectiles
@@ -36,7 +36,7 @@ void setup() {
     playerProjectile = new Projectile[1];     // normal mode
   }
 
-  enemyProjectiles = new Projectile[5];
+  enemyProjectiles = new Projectile[10];
 
   // starting game values
   score = 0;
@@ -45,6 +45,8 @@ void setup() {
   stage = 1;
   alienTick = 60; //aliens start moving once every second
   gameOver = false;
+  text = (255);
+  fill(text);
 
   textSize(100);
   textAlign(CENTER);
@@ -94,7 +96,7 @@ void draw() {
     if (stage > 1) {
       text("Stage " + stage, width/2, height/2);
     } else {
-      fill(255);
+      fill(text);
       text("Get Ready", width/2, height/2);
     }
   } else {
@@ -104,11 +106,20 @@ void draw() {
     // paused overlay
     if (paused == true) {
       textAlign(CENTER);
-      fill(255);
+      fill(text);
       text("PAUSED", width/2, height/2);
     } else {
 
-      // stage clear → reset board, increase difficulty
+      //winning screen
+      if (stage == 7 && stageClear() == true) {
+        background(255, 255, 0);
+        textAlign(CENTER);
+        fill(text);
+        text("CONGRATS YOU WON!", width/2, height/2);
+        return;
+      }
+
+      // stage clear need to save values for setup reset
       if (stageClear() == true) {
         int savescore = score;
         int savestage = stage;
@@ -124,14 +135,8 @@ void draw() {
 
         //        println(stage);
       }
-    
-      //winning screen
-      if (stage == 3 && stageClear() == true){
-      background (255);
-      textAlign(CENTER);
-      fill(255);
-      text("CONGRATS YOU WON!", width/2, height/2);
-      }
+
+
 
       // check player death
       if (player.alive == false) {
@@ -162,7 +167,7 @@ void draw() {
 
         // enemy firing pattern
         if (frameCount % 240 == 0) {
-          for (int num = 0; num < 5; num++) {
+          for (int num = 0; num < 10; num++) {
             int i = int(random(enemyRows));
             int j = int(random(enemyCols));
 
@@ -173,7 +178,7 @@ void draw() {
         }
 
         // update enemy bullets
-        for (int b = 0; b < 5; b++) {
+        for (int b = 0; b < 10; b++) {
           if (enemyProjectiles[b] != null) {
             enemyProjectiles[b].display();
             enemyProjectiles[b].move();
@@ -188,9 +193,17 @@ void draw() {
         else fill(255, 0, 0);
         text(lives + " lives remaining", width - 20, 50);
 
+        // draw hearts underneath
+        float heartSize = 25;
+        float startX = width - 20 - (lives * (heartSize + 10));
+        float y = 85;
+        for (int i = 0; i < lives; i++) {
+          drawHeart(startX + i * (heartSize + 10), y, heartSize);
+        }
+
         //score display
         textAlign(LEFT);
-        fill(255);
+        fill(text);
         text("SCORE: " + score, 20, 50);
 
         // draw player
@@ -219,29 +232,9 @@ void draw() {
         // GAME OVER screen
         textSize(100);
         textAlign(CENTER);
-        fill(255);
+        fill(text);
         text("GAMEOVER", width/2, height/2);
         text("Final Score: " + score, width/2, height/2 + 120);
-      }
-    }
-  }
-}
-
-//detects alien grid hitting wall
-void checkWallCollision() {
-  for (int row = 0; row < enemyRows; row++) {
-    for (int col = 0; col < enemyCols; col++) {
-
-      // if any enemy hits a wall
-      if (enemies[row][col].x + 31 > width || enemies[row][col].x - 1 < 0) {
-
-        // reverse direction of entire formation
-        for (int r = 0; r < enemyRows; r++) {
-          for (int c = 0; c < enemyCols; c++) {
-            enemies[r][c].changeDir();
-          }
-        }
-        return;
       }
     }
   }
@@ -257,6 +250,44 @@ boolean stageClear() {
     }
   }
   return true;
+}
+
+//draws a heart
+void drawHeart(float x, float y, float size) {
+  noStroke();
+  fill(255, 0, 0);
+
+  // top circles
+  ellipse(x - size/4, y - size/4, size/2, size/2);
+  ellipse(x + size/4, y - size/4, size/2, size/2);
+
+  // bottom triangle
+  triangle(
+    x - size/2, y - size/4,
+    x + size/2, y - size/4,
+    x, y + size/2
+    );
+}
+
+//detects alien grid hitting wall
+void checkWallCollision() {
+  for (int row = 0; row < enemyRows; row++) {
+    for (int col = 0; col < enemyCols; col++) {
+      if (enemies[row][col].alive == true) { //only check for enemies that havent been destroyed
+        // if any enemy hits a wall
+        if (enemies[row][col].x + 31 > width || enemies[row][col].x - 1 < 0) {
+
+          // reverse direction of entire formation
+          for (int r = 0; r < enemyRows; r++) {
+            for (int c = 0; c < enemyCols; c++) {
+              enemies[r][c].changeDir();
+            }
+          }
+          return;
+        }
+      }
+    }
+  }
 }
 
 //player's bullets' collisions
@@ -398,12 +429,12 @@ void keyPressed() {
 
 //attempts to fire a player bullet
 void mousePressed() {
-  for (int i = 0; i < playerProjectile.length; i++) {
+  int i = 0;
+  while (i < playerProjectile.length && playerProjectile[i] != null) {
+    i++;
+  }
 
-    // find first empty slot to create a new bullet
-    if (playerProjectile[i] == null) {
-      playerProjectile[i] = player.shoot();
-      return;
-    }
+  if (i < playerProjectile.length) {
+    playerProjectile[i] = player.shoot();
   }
 }
